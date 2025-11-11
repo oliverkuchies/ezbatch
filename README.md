@@ -1,7 +1,7 @@
 # ezbatch - Micro Batcher
 
 [![npm version](https://img.shields.io/npm/v/ezbatch.svg)](https://www.npmjs.com/package/ezbatch)
-[![license](https://img.shields.io/npm/l/ezbatch.svg)](https://github.com/oliverkuchies/ezbatch/blob/main/LICENSE)
+[![npm downloads](https://img.shields.io/npm/dm/ezbatch.svg)](https://www.npmjs.com/package/ezbatch)
 [![build](https://img.shields.io/github/actions/workflow/status/oliverkuchies/ezbatch/ci.yml?branch=main)](https://github.com/oliverkuchies/ezbatch/actions)
 
 A lightweight TypeScript library for batching jobs and processing them at configurable intervals. Designed for use cases where you want to collect jobs and process them in groups, improving efficiency and throughput.
