@@ -25,7 +25,7 @@ npm install ezbatch
 Create a class or object that implements the `BatchProcessor<T>` interface:
 
 ```typescript
-import { BatchProcessor } from './src/interfaces/batch-processor';
+import { BatchProcessor } from 'ezbatch';
 
 class MyBatchProcessor implements BatchProcessor<string> {
     async execute(batch: string[]): Promise<void> {
@@ -38,7 +38,7 @@ class MyBatchProcessor implements BatchProcessor<string> {
 ### 2. Create a MicroBatcher Instance
 
 ```typescript
-import { MicroBatcher } from './src/micro-batcher';
+import { MicroBatcher } from 'ezbatch';
 
 const processor = new MyBatchProcessor();
 const batcher = new MicroBatcher<string>(processor, 1000, 5); // 1s interval, 5 jobs per batch
@@ -54,11 +54,38 @@ batcher.addJob('job2');
 
 Jobs will be processed in batches of 5, every 1 second.
 
-### 4. Monitor Queue Size (Optional)
+
+### API Batching Example
+
+Batch multiple API calls together to reduce network overhead:
 
 ```typescript
-console.log(batcher.getQueueSize());
+import { BatchProcessor, MicroBatcher } from 'ezbatch';
+
+class ApiBatchProcessor implements BatchProcessor<{ url: string; payload: any }> {
+    async execute(batch: { url: string; payload: any }[]): Promise<void> {
+        // Send all requests in parallel
+        await Promise.all(
+            batch.map(job => fetch(job.url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(job.payload),
+            }))
+        );
+        console.log('Processed API batch:', batch.length);
+    }
+}
+
+const apiProcessor = new ApiBatchProcessor();
+const apiBatcher = new MicroBatcher(apiProcessor, 2000, 10); // 2s interval, 10 requests per batch
+
+// Add API jobs
+apiBatcher.addJob({ url: 'https://api.example.com/data', payload: { foo: 'bar' } });
+apiBatcher.addJob({ url: 'https://api.example.com/data', payload: { foo: 'baz' } });
+// ...
 ```
+
+This will batch up to 10 API requests and send them every 2 seconds.
 
 ## API
 
