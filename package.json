@@ -1,0 +1,22 @@
+{
+	"name": "ezbatch",
+	"version": "1.0.0",
+	"description": "Easily manage and process large batches of data with Ezbatch, a TypeScript library designed for efficiently processing batches at a given interval.",
+	"main": "dist/src/index.js",
+	"scripts": {
+		"test": "vitest --coverage",
+		"lint": "biome check ./src",
+		"lint:fix": "biome check --fix ./src",
+		"build": "tsc --build",
+		"prepare": "npm run lint && npm run build"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.3",
+		"@faker-js/faker": "^10.1.0",
+		"@vitest/coverage-v8": "^4.0.7",
+		"typescript": "^5.9.3",
+		"vitest": "^4.0.7"
+	}
+}
